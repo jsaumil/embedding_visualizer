@@ -1,0 +1,28 @@
+{
+  "name": "vis",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Frontend-only embedding vector-space visualizer (Next.js App Router)",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "bench": "node bench/run_bench.js",
+    "serve": "node bench/serve.js"
+  },
+  "dependencies": {
+    "@huggingface/transformers": "4.3.1",
+    "@types/three": "^0.160.0",
+    "next": "15.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "three": "^0.160.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.0.0",
+    "@types/react": "18.3.0",
+    "@types/react-dom": "18.3.0",
+    "ignore-loader": "^0.1.2",
+    "typescript": "5.6.3"
+  }
+}

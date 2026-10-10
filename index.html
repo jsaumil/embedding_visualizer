@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vector Space Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "@huggingface/transformers": "https://cdn.jsdelivr.net/npm/@huggingface/transformers@4.3.1/dist/transformers.min.js",
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Vector Space Explorer</h1>
+    <p class="tagline">Embed your data, project to 2D or 3D with PCA, and drop in new points to see where they land.</p>
+  </header>
+
+  <section class="controls">
+    <div class="row">
+      <label for="model">Embedding model</label>
+      <select id="model">
+        <option value="Xenova/all-MiniLM-L6-v2" selected>MiniLM-L6 (text, 384d, fast)</option>
+        <option value="Xenova/all-mpnet-base-v2">MPNet base (text, 768d, accurate)</option>
+        <option value="Xenova/bge-small-en-v1.5">BGE small (text, 384d)</option>
+      </select>
+    </div>
+    <div class="row">
+      <label for="dim">Dimensions</label>
+      <div class="seg" role="tablist">
+        <button class="seg-btn active" data-dim="2" type="button">2D</button>
+        <button class="seg-btn" data-dim="3" type="button">3D</button>
+      </div>
+    </div>
+    <div class="row">
+      <label for="maxlen">Context</label>
+      <select id="maxlen" title="Maximum tokens per item. Shorter contexts are faster but truncate long texts.">
+        <option value="auto" selected>Auto (model default)</option>
+        <option value="3">Shortest (≤ 3 tokens)</option>
+        <option value="4">Short (≤ 4 tokens)</option>
+        <option value="8">Medium (≤ 8 tokens)</option>
+        <option value="16">Long (≤ 16 tokens)</option>
+        <option value="32">X-Long (≤ 32 tokens)</option>
+        <option value="128">Full (≤ 128 tokens)</option>
+      </select>
+    </div>
+    <div id="status" class="status">Ready. Add some data to begin.</div>
+  </section>
+
+  <section class="io">
+    <div class="panel">
+      <h2>1. Your dataset</h2>
+      <p class="hint">Drop text files, paste text, or type a short label per item. Each line becomes one point.</p>
+      <div class="input-row">
+        <textarea id="batch-text" placeholder="One item per line. E.g.&#10;A photo of a red rose&#10;A bowl of fresh pasta&#10;A sound of thunder"></textarea>
+        <div class="actions">
+          <button id="add-batch" class="primary">Add to dataset</button>
+          <button id="clear-dataset">Clear dataset</button>
+          <button id="load-example" class="ghost" title="Load a built-in sample dataset">Try example</button>
+        </div>
+      </div>
+      <div class="file-row">
+        <label class="file-btn">
+          <input id="file-input" type="file" multiple accept=".txt,.csv,text/*" />
+          <span>Load text file(s)</span>
+        </label>
+        <span id="dataset-summary" class="muted">0 items</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>2. New point</h2>
+      <p class="hint">Anything goes. This will be embedded by the same model and projected with the dataset's PCA, then drawn in a contrasting color so it stands out from the dataset.</p>
+      <div class="input-row">
+        <textarea id="new-text" placeholder="A short description, sentence, or question."></textarea>
+        <div class="actions">
+          <button id="add-new" class="primary">Add new point</button>
+        </div>
+      </div>
+      <div id="new-list" class="chips"></div>
+    </div>
+  </section>
+
+  <section class="viz">
+    <div class="viz-header">
+      <h2>Vector space</h2>
+      <div id="legend" class="legend"></div>
+    </div>
+    <div class="chart-wrap">
+      <canvas id="chart" width="900" height="560" aria-label="2D scatter of embeddings"></canvas>
+      <div id="three-container" class="three-container" hidden></div>
+      <div id="tooltip" class="tooltip" hidden></div>
+    </div>
+    <div id="variance" class="muted"></div>
+  </section>
+
+  <footer>
+    <p>Runs entirely in your browser. Embedding model fetched once on first use, cached after.</p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+(node:16112) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///E:/vis/bench/run_bench.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to E:\vis\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[warmup 3] embed=80ms pca=14ms project=0ms total=94ms
+[run 1] embed=72ms pca=5ms project=0ms total=78ms
+[run 2] embed=46ms pca=4ms project=0ms total=50ms
+[run 3] embed=59ms pca=8ms project=0ms total=67ms
+[run 4] embed=60ms pca=5ms project=0ms total=66ms
+[run 5] embed=62ms pca=6ms project=0ms total=68ms
+METRIC pipeline_ms=66.88
+METRIC embed_ms=60.35
+METRIC pca_ms=5.37
+METRIC project_ms=0.13
+METRIC model_load_ms=4571.64
+METRIC n_points=50
+METRIC embedding_dim=384
+METRIC var_explained_total=0.1195
+METRIC var_explained_pc1=0.0630
+METRIC var_explained_pc2=0.0565
+ASI model=Xenova/all-MiniLM-L6-v2
+ASI iters=5
+ASI median_total_ms=66.88
